@@ -5,18 +5,17 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Edit</h1>
+<h1 class="display-4">Edit</h1>
 
 <h4>Event</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" id="edit-event">
             @Html.HiddenFor(m => m.UserId)
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Event.Id" />
             <div class="form-group">
-               @* @Html.DropDownList("Employee", Model.Employee, "Select a Employees", new { @class= "form-control required" })*@
                 <label asp-for="Event.Name" class="control-label"></label>
                 <input asp-for="Event.Name" class="form-control" />
                 <span asp-validation-for="Event.Name" class="text-danger"></span>
@@ -49,29 +48,43 @@
 
 <script>
     function SetSelectedLocation(Location) {
-        var locations = document.getElementById('Location'), loc, i;
+        var locations = document.getElementById('Location'),
+            loc, i;
 
         for (i = 0; i < locations.length; i++) {
             loc = locations[i];
             if (loc.innerText === Location) {
-                loc.selected = "true";
+                loc.selected = true;
             }
         }
     }
-    
 
-    var eventlocation = "@Html.Raw(Model.LocationName)";
-    
+    var eventLocation = "@Html.Raw(Model.LocationName)";
 
     document.addEventListener('DOMContentLoaded', function () {
-        SetSelectedEmployee(eventlocation);
+        SetSelectedLocation(eventLocation);
     });
 </script>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+<div class="mt-4">
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
 </div>
 
+@* Additional Features and Tools *@
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        // Add an interactive feature here
+        $(document).ready(function () {
+            // Your custom JavaScript code
+            $("#edit-event").validate();
+        });
+    </script>
+
+    @* Additional libraries or scripts *@
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+
+    @* Additional CSS or styles *@
+    <style>
+        /* Your custom CSS styles */
+    </style>
 }

@@ -11,6 +11,8 @@ namespace System.Web.Project.Data
 {
     public interface IDAL
     {
+      
+
         public List<Event> GetEvents();
         public List<Event> GetMyEvents(string userid);
         public Event GetEvent(int id);
@@ -20,6 +22,7 @@ namespace System.Web.Project.Data
         public List<Models.Location> GetLocations();
         public Models.Location GetLocation(int id);
         public void CreateLocation(Models.Location location);
+        public void DeleteLocation(int id);
 
 
         //Employee
@@ -30,11 +33,14 @@ namespace System.Web.Project.Data
         public void CreateEmployee(IFormCollection form);
         public void DeleteEmployee(int id);
         public void UpdateEmployee(IFormCollection form);
+       
 
         //Department
         public List<Department> GetDepartments();
         public Department GetDepartment(int id);
         public void CreateDepartment(Department department);
+        public void DeleteDepartment(int id);
+        
     }
 
     public class DAL : IDAL
@@ -156,5 +162,20 @@ namespace System.Web.Project.Data
             db.Departments.Add(department);
             db.SaveChanges();
         }
+
+        public void DeleteDepartment(int id)
+        {
+            var department = db.Departments.Find(id);
+            db.Departments.Remove(department);
+            db.SaveChanges(); ;
+        }
+        public void DeleteLocation(int id)
+        {
+            var location = db.Locations.Find(id);
+            db.Locations.Remove(location);
+            db.SaveChanges(); 
+        }
+
+
     }
 }

@@ -10,6 +10,7 @@
         public string EmployeeCity { get; set; }
         public virtual Department Department { get; set; }
 
+        //public virtual ICollection<Event > Events { get; set; }
         
         //public virtual Location? Location { get; set; }
         public virtual ApplicationUser? User { get; set; }

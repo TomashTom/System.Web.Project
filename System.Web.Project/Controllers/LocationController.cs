@@ -81,5 +81,29 @@ namespace System.Web.Project.Controllers
             }
             return View(location);
         }
+        public IActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var location = _dal.GetLocation((int)id);
+            if (location == null)
+            {
+                return NotFound();
+            }
+
+            return View(location);
+        }
+
+        // POST: Event/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteConfirmed(int id)
+        {
+            _dal.DeleteLocation(id);
+            TempData["Alert"] = "You deleted an event.";
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

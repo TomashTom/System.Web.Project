@@ -9,7 +9,9 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.9" />
-    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.14" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="6.0.16" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="6.0.16" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.16" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.16" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.16" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.16" />
@@ -23,6 +25,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="7.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration" Version="6.0.13" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.13" />
   </ItemGroup>

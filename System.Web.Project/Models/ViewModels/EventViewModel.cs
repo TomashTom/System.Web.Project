@@ -11,8 +11,10 @@ namespace System.Web.Project.Models.ViewModels
     public class EventViewModel
     {
         public Event Event { get; set; }
+
         public List<SelectListItem> Location = new List<SelectListItem>();
-        
+       
+
         
         public string LocationName { get; set; }
         
@@ -21,7 +23,7 @@ namespace System.Web.Project.Models.ViewModels
 
 
         
-        public EventViewModel(Event myevent, List<Location> locations, string userid)
+        public EventViewModel(Event myevent, List<Location> locations, string userid )
         {
             Event = myevent;
             LocationName = myevent.Location.Name;
@@ -30,23 +32,24 @@ namespace System.Web.Project.Models.ViewModels
             {
                 Location.Add(new SelectListItem() { Text = loc.Name });
             }
+            
         }
 
-        public EventViewModel(List<Location> locations, string userid)
+        public EventViewModel(List<Location> locations, string userid )
         {
             UserId = userid;
             foreach (var loc in locations)
             {
                 Location.Add(new SelectListItem() { Text = loc.Name });
             }
+            
         }
+
+       
 
         public EventViewModel()
         {
-
+            
         }
-
-
-
     }
 }

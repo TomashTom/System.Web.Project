@@ -2172,9 +2172,14 @@ var FullCalendar = (function (exports) {
             if (endDay && endDay <= startDay) {
                 endDay = addDays(startDay, 1);
             }
+            if (timedRange.end && !endDay) {
+                endDay = timedRange.end;
+            }
         }
         return { start: startDay, end: endDay };
     }
+
+
     // spans from one day into another?
     function isMultiDayRange(range) {
         var visibleRange = computeVisibleDayRange(range);
@@ -2376,6 +2381,7 @@ var FullCalendar = (function (exports) {
         }
         return { bg: bgRanges, fg: fgRanges };
     }
+
     function hasBgRendering(def) {
         return def.ui.display === 'background' || def.ui.display === 'inverse-background';
     }
@@ -2434,39 +2440,95 @@ var FullCalendar = (function (exports) {
     function computeSegEndResizable(seg, context) {
         return seg.isEnd && seg.eventRange.ui.durationEditable;
     }
-    function buildSegTimeText(seg, timeFormat, context, defaultDisplayEventTime, // defaults to true
-    defaultDisplayEventEnd, // defaults to true
-    startOverride, endOverride) {
-        var dateEnv = context.dateEnv, options = context.options;
-        var displayEventTime = options.displayEventTime, displayEventEnd = options.displayEventEnd;
+
+    //new from here
+    function buildSegTimeText(
+        seg,
+        timeFormat,
+        context,
+        defaultDisplayEventTime, // defaults to true
+        defaultDisplayEventEnd, // defaults to true
+        startOverride,
+        endOverride
+    ) {
+        var dateEnv = context.dateEnv,
+            options = context.options;
+        var displayEventTime = options.displayEventTime,
+            displayEventEnd = options.displayEventEnd;
         var eventDef = seg.eventRange.def;
         var eventInstance = seg.eventRange.instance;
+
         if (displayEventTime == null) {
             displayEventTime = defaultDisplayEventTime !== false;
         }
         if (displayEventEnd == null) {
             displayEventEnd = defaultDisplayEventEnd !== false;
         }
+
         var wholeEventStart = eventInstance.range.start;
         var wholeEventEnd = eventInstance.range.end;
         var segStart = startOverride || seg.start || seg.eventRange.range.start;
         var segEnd = endOverride || seg.end || seg.eventRange.range.end;
         var isStartDay = startOfDay(wholeEventStart).valueOf() === startOfDay(segStart).valueOf();
         var isEndDay = startOfDay(addMs(wholeEventEnd, -1)).valueOf() === startOfDay(addMs(segEnd, -1)).valueOf();
+
         if (displayEventTime && !eventDef.allDay && (isStartDay || isEndDay)) {
             segStart = isStartDay ? wholeEventStart : segStart;
             segEnd = isEndDay ? wholeEventEnd : segEnd;
+
             if (displayEventEnd && eventDef.hasEnd) {
-                return dateEnv.formatRange(segStart, segEnd, timeFormat, {
-                    forcedStartTzo: startOverride ? null : eventInstance.forcedStartTzo,
-                    forcedEndTzo: endOverride ? null : eventInstance.forcedEndTzo,
-                });
+                if (segEnd) {
+                    return dateEnv.formatRange(segStart, segEnd, timeFormat, {
+                        forcedStartTzo: startOverride ? null : eventInstance.forcedStartTzo,
+                        forcedEndTzo: endOverride ? null : eventInstance.forcedEndTzo,
+                    });
+                } else {
+                    // Display the start time if end time is not available
+                    return dateEnv.format(segStart, timeFormat, {
+                        forcedTzo: startOverride ? null : eventInstance.forcedStartTzo,
+                    });
+                }
             }
+
             return dateEnv.format(segStart, timeFormat, {
-                forcedTzo: startOverride ? null : eventInstance.forcedStartTzo, // nooooo, same
+                forcedTzo: startOverride ? null : eventInstance.forcedStartTzo,
             });
         }
+
         return '';
+    //function buildSegTimeText(seg, timeFormat, context, defaultDisplayEventTime, // defaults to true
+    //defaultDisplayEventEnd, // defaults to true
+    //startOverride, endOverride) {
+    //    var dateEnv = context.dateEnv, options = context.options;
+    //    var displayEventTime = options.displayEventTime, displayEventEnd = options.displayEventEnd;
+    //    var eventDef = seg.eventRange.def;
+    //    var eventInstance = seg.eventRange.instance;
+    //    if (displayEventTime == null) {
+    //        displayEventTime = defaultDisplayEventTime !== false;
+    //    }
+    //    if (displayEventEnd == null) {
+    //        displayEventEnd = defaultDisplayEventEnd !== false;
+    //    }
+    //    var wholeEventStart = eventInstance.range.start;
+    //    var wholeEventEnd = eventInstance.range.end;
+    //    var segStart = startOverride || seg.start || seg.eventRange.range.start;
+    //    var segEnd = endOverride || seg.end || seg.eventRange.range.end;
+    //    var isStartDay = startOfDay(wholeEventStart).valueOf() === startOfDay(segStart).valueOf();
+    //    var isEndDay = startOfDay(addMs(wholeEventEnd, -1)).valueOf() === startOfDay(addMs(segEnd, -1)).valueOf();
+    //    if (displayEventTime && !eventDef.allDay && (isStartDay || isEndDay)) {
+    //        segStart = isStartDay ? wholeEventStart : segStart;
+    //        segEnd = isEndDay ? wholeEventEnd : segEnd;
+    //        if (displayEventEnd && eventDef.hasEnd) {
+    //            return dateEnv.formatRange(segStart, segEnd, timeFormat, {
+    //                forcedStartTzo: startOverride ? null : eventInstance.forcedStartTzo,
+    //                forcedEndTzo: endOverride ? null : eventInstance.forcedEndTzo,
+    //            });
+    //        }
+    //        return dateEnv.format(segStart, timeFormat, {
+    //            forcedTzo: startOverride ? null : eventInstance.forcedStartTzo, // nooooo, same
+    //        });
+    //    }
+    //    return '';
     }
     function getSegMeta(seg, todayRange, nowDate) {
         var segRange = seg.eventRange.range;

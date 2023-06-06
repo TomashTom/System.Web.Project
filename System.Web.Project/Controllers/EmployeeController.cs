@@ -24,8 +24,9 @@ namespace System.Web.Project.Controllers
         }
 
         // GET: Employee
-        public IActionResult Index()
+        public IActionResult Index(string sortOrder)
         {
+            
             if (TempData["Alert"] != null)
             {
                 ViewData["Alert"] = TempData["Alert"];

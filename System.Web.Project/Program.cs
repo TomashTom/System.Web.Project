@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using System.Web.Project.Data;
 using System.Web.Project.Models;
 
@@ -17,12 +19,20 @@ builder.Services.AddScoped<IDAL, DAL>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
+//builder.Services.AddAuthentication()
+//    .AddGoogle(options =>
+//    {
+//        options.ClientId = builder.Configuration["Authentication:Google:ClientId"];
+//        options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+//    });
+    
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseMigrationsEndPoint();
+    app.UseMigrationsEndPoint();   
 }
 else
 {

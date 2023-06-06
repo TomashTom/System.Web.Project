@@ -11,6 +11,11 @@ namespace System.Web.Project.Models
 
         //Relational data
         public virtual ICollection<Event>? Events { get; set; }
+
+        public Location()
+        {
+
+        }
        
 
     }

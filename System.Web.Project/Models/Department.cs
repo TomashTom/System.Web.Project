@@ -8,5 +8,13 @@ namespace System.Web.Project.Models
         public int Id { get; set; }
         public string? Name { get; set; }
         public virtual ICollection<Employee>? Employees { get; set; }
+        
+
+        
+        public Department()
+        {
+
+        }
     }
+
 }

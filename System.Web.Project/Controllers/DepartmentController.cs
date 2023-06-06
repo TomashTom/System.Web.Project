@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Web.Project.Data;
 using System.Web.Project.Models;
+using System.Web.Project.Models.ViewModels;
 
 namespace System.Web.Project.Controllers
 {
@@ -74,14 +75,38 @@ namespace System.Web.Project.Controllers
                 {
                     ViewData["Alert"] = "An error occurred" + ex.Message;
                 }
-                
 
-                
-                ;
             }
             return View(department);
         }
 
-       
+        
+        public IActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var department = _dal.GetDepartment((int)id);
+            if (department == null)
+            {
+                return NotFound();
+            }
+
+            return View(department);
+        }
+
+        // POST: Event/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteConfirmed(int id)
+        {
+            _dal.DeleteDepartment(id);
+            TempData["Alert"] = "You deleted an event.";
+            return RedirectToAction(nameof(Index));
+        }
     }
+
+
 }
+

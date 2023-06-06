@@ -29,8 +29,9 @@ namespace System.Web.Project.Controllers
         }
 
         // GET: Event
-        public IActionResult Index()
+        public IActionResult Index(string sortOrder)
         {
+            
             if (TempData["Alert"] != null)
             {
                 ViewData["Alert"] = TempData["Alert"];
@@ -73,7 +74,7 @@ namespace System.Web.Project.Controllers
             try
             {
                 _dal.CreateEvent(form);
-                TempData["Alert"] = "Success! You created a new event for: " + form["Event.Name"];
+                TempData["Alert"] = "Success! You created a new event for: " + form["EmployeeName.Name"];
                 return RedirectToAction("Index");
             }
             catch (Exception ex)

@@ -4,6 +4,7 @@ using System.Web.Project.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace System.Web.Project.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230606092910_test1")]
+    partial class test1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -237,7 +239,7 @@ namespace System.Web.Project.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Departments", (string)null);
+                    b.ToTable("Departments");
                 });
 
             modelBuilder.Entity("System.Web.Project.Models.Employee", b =>
@@ -280,7 +282,7 @@ namespace System.Web.Project.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Employees", (string)null);
+                    b.ToTable("Employees");
                 });
 
             modelBuilder.Entity("System.Web.Project.Models.Event", b =>
@@ -320,7 +322,7 @@ namespace System.Web.Project.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Events", (string)null);
+                    b.ToTable("Events");
                 });
 
             modelBuilder.Entity("System.Web.Project.Models.Location", b =>
@@ -336,7 +338,7 @@ namespace System.Web.Project.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Locations", (string)null);
+                    b.ToTable("Locations");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
